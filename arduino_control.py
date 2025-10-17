@@ -12,14 +12,14 @@ except Exception as e:
     ser = None
 
 def start_tap_window():
-    """Ask Arduino to detect taps within 5 seconds."""
+    """Ask Arduino to detect taps within 10 seconds."""
     if not ser:
         return 0
     ser.reset_input_buffer()
     ser.write(b"START_TAP\n")
     start = time.time()
     tap_count = 0
-    while time.time() - start < 7:
+    while time.time() - start < 10:  # Increased to 10 sec
         line = ser.readline().decode(errors="ignore").strip()
         if line:
             print(line)
