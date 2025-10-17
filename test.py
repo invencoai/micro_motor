@@ -4,7 +4,8 @@ from email.message import EmailMessage
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 from dotenv import load_dotenv
-# -------------------- CONFIG --------------------
+
+#  CONFIG 
 MONGO_URI = "mongodb://localhost:27017/"
 DB_NAME = "arduino"
 COLL = "test"
@@ -13,11 +14,13 @@ BAUD = 9600
 load_dotenv()
 EMAIL_ADDR = os.environ.get("SENDER_EMAIL")
 EMAIL_PASS = os.environ.get("SENDER_PASS")
-# -------------------- DATABASE --------------------
+
+#  DATABASE 
 client = MongoClient(MONGO_URI)
 db = client[DB_NAME]
 users = db[COLL]
-# -------------------- SERIAL --------------------
+
+#  SERIAL 
 try:
     ser = serial.Serial(SERIAL_PORT, BAUD, timeout=2)
     time.sleep(2)
@@ -25,7 +28,8 @@ try:
 except Exception as e:
     print(":x: Serial connection failed:", e)
     exit()
-# -------------------- HELPERS --------------------
+
+#  HELPERS 
 def send_otp_email(to_email, otp):
     msg = EmailMessage()
     msg['Subject'] = 'Your Door OTP'
@@ -58,7 +62,8 @@ def open_gate():
     ser.write(b"OPEN\n")
 def close_gate():
     ser.write(b"CLOSE\n")
-# -------------------- GUI --------------------
+
+#  GUI 
 root = tk.Tk()
 root.title("Secure Door Access")
 root.geometry("400x320")
